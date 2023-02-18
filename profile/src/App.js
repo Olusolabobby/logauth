@@ -5,6 +5,9 @@ import {BrowserRouter, Routes, Route, Navigate} from "react-router-dom"
 import Home from "./Pages/Home";
 import {AuthContext} from "./context/AuthContext";
 import {useContext} from "react";
+import Profile from "./Pages/Profile";
+import Register from "./Pages/register";
+import {AppRoutes} from "./common/Routes";
 
 function App() {
 
@@ -21,9 +24,10 @@ function App() {
       <BrowserRouter>
         <Routes>
 
-          <Route path ="/" />
-          <Route path="login" element={<Login />} />
-          <Route index element ={<RequireAuth><Home /> </RequireAuth>} />
+          <Route path={AppRoutes.login} element={<Login />} />
+          <Route path={AppRoutes.register} element={<Register />} />
+          <Route path={AppRoutes.home} element={<RequireAuth><Home /> </RequireAuth>} />
+          <Route path={AppRoutes.profile} element= {<RequireAuth><Profile /> </RequireAuth>} />
 
         </Routes>
       </BrowserRouter>

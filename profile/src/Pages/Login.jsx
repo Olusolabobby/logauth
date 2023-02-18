@@ -1,7 +1,7 @@
 import React, {useContext, useState} from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
-import {useNavigate} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import {AuthContext} from "../context/AuthContext";
 
 
@@ -46,6 +46,7 @@ const Login = () => {
                 <button type="submit">Login</button>
                 {error && <span>Wrong details!</span>}
             </form>
+            <p>You don't have an account? <Link to="/register"> SignUp </Link></p>
         </div>
     )
 }
