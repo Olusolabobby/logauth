@@ -1,9 +1,9 @@
 import {Link, useNavigate} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import {auth, db} from "../firebase";
+import {auth, db} from "../../firebase";
 import { doc, setDoc, addDoc, collection, serverTimestamp } from "firebase/firestore";
-import {AppRoutes} from "../common/Routes";
+import {AppRoutes} from "../../common/Routes";
 
 
 
@@ -16,6 +16,7 @@ const Register = () => {
         username: '',
         firstname: '',
         lastname: '',
+        role: 'user',
         email: '',
         phone: '',
         password: '',

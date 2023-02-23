@@ -1,12 +1,12 @@
 import {useEffect, useState} from "react";
 import React from "react";
 import {collection, doc, onSnapshot, setDoc} from "firebase/firestore";
-import {db, storage} from "../firebase";
+import {db, storage} from "../../firebase";
 import {  ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 
 
-const Profile = () => {
+const AdminProfile = () => {
 
     const [users, setUsers] = useState([]);
     const [editId, setEditID] = useState('');
@@ -29,7 +29,7 @@ const Profile = () => {
             setUsers(data)
         })
     }
-
+    console.log('users', users)
     const editUser = async (id, newUser= editFormValues) => {
         const docRef=doc(db,"users", id)
         console.log("editFormValues", newUser);
@@ -38,8 +38,8 @@ const Profile = () => {
 
     const handleSaveEdit = async (id, newUser) => {
         await editUser(id, newUser);
-        // setEditID('');
-        // setEditFormValues({});
+        setEditID('');
+        setEditFormValues({});
     }
 
 
@@ -78,13 +78,13 @@ const Profile = () => {
         });
     };
 
-
+    console.log(editId);
 
     return(
 
 
         <div>
-            <h1>Profile</h1>
+            <h1>Welcome Admin</h1>
 
             {users && users.map((user) => (
                 editId !== user?.id
@@ -102,37 +102,37 @@ const Profile = () => {
                         <button onClick={()=> setEditID(user?.id)}>Update</button>
                     </div>)
                     :
-                        (<div key={user.id}>
-                            {editFormValues?.imageUrl && <img src={editFormValues.imageUrl} alt=" " style={{width: "100px"}}/> }
+                    (<div key={user.id}>
+                        {editFormValues?.imageUrl && <img src={editFormValues.imageUrl} alt=" " style={{width: "100px"}}/> }
 
-                            <input type="file" onChange={handleUpload} />
+                        <input type="file" onChange={handleUpload} />
 
-                            <span>Username</span>
-                            <input value={editFormValues?.username}
-                                   onChange={(e)=> setFormData(e.target.value, 'firstName')}
-                            />
-                            <br/>
-                            <span>Firstname</span>
-                            <input value={editFormValues?.firstname}
-                                   onChange={(e)=> setFormData(e.target.value, 'lastName')}
-                            />
-                            <br/>
-                            <span>Lastname</span>
-                            <input value={editFormValues?.lastname}
-                                   onChange={(e)=> setFormData(e.target.value, 'dateOfBirth')}
-                            />
-                            <br/>
-                            <span>Phone</span>
-                            <input value={editFormValues?.phone}
-                                   onChange={(e)=> setFormData(e.target.value, 'role')}
-                            />
-                            <button type='button' onClick={()=>handleSaveEdit(user.id)}>Save Edit</button>
+                        <span>Username</span>
+                        <input value={editFormValues?.username}
+                               onChange={(e)=> setFormData(e.target.value, 'username')}
+                        />
+                        <br/>
+                        <span>Firstname</span>
+                        <input value={editFormValues?.firstname}
+                               onChange={(e)=> setFormData(e.target.value, 'firstname')}
+                        />
+                        <br/>
+                        <span>Lastname</span>
+                        <input value={editFormValues?.lastname}
+                               onChange={(e)=> setFormData(e.target.value, 'lastname')}
+                        />
+                        <br/>
+                        <span>Phone</span>
+                        <input value={editFormValues?.phone}
+                               onChange={(e)=> setFormData(e.target.value, 'phone')}
+                        />
+                        <button type='button' onClick={()=>handleSaveEdit(user.id)}>Save Edit</button>
 
-                        </div>)
+                    </div>)
             ))}
 
         </div>
     )
 }
 
-export default Profile;
+export default AdminProfile;
