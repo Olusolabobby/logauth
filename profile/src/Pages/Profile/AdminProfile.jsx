@@ -3,6 +3,8 @@ import React from "react";
 import {collection, doc, onSnapshot, setDoc} from "firebase/firestore";
 import {db, storage} from "../../firebase";
 import {  ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import {setFormData} from "../../jHelpers/js-Helpers";
+import {Link} from "react-router-dom";
 
 
 
@@ -10,7 +12,10 @@ const AdminProfile = () => {
 
     const [users, setUsers] = useState([]);
     const [editId, setEditID] = useState('');
+    const [showInfo, setShowInfo] = useState(false);
+    const [userToShow, setUserToShow] = useState({});
     const [editFormValues, setEditFormValues] = useState({});
+
 
 
     useEffect( ()=> {
@@ -69,26 +74,40 @@ const AdminProfile = () => {
     }
 
 
-    const setFormData = (value, key) => {
-        setEditFormValues((prevState)=>{
-            return{
-                ...prevState,
-                [key]: value,
-            }
-        });
-    };
 
-    console.log(editId);
+
+    // console.log(editId);
+
+    const handleUserClick = (user) => {
+        // console.log(user);
+        setShowInfo(true);
+        setUserToShow(user);
+    }
+
+    const handleInfoClose = ()=> {
+        setShowInfo(false);
+        setUserToShow({})
+    }
 
     return(
-
 
         <div>
             <h1>Welcome Admin</h1>
 
+            <Link to="/">
+                <button>Home</button>
+            </Link>
+
+            {showInfo && <div style={{color: "red"}}>
+                <p>{userToShow.username}</p>
+                <p>{userToShow.firstname}</p>
+                <p>{userToShow.lastname}</p>
+                <button onClick={handleInfoClose}>close</button>
+            </div>}
+
             {users && users.map((user) => (
                 editId !== user?.id
-                    ? (<div key={user.id}>
+                    ? (<div key={user.id} onClick={()=>handleUserClick(user)}>
                         <p>{user?.username}</p>
                         <p>{user?.firstname}</p>
                         <p>{user?.lastname}</p>
@@ -109,22 +128,22 @@ const AdminProfile = () => {
 
                         <span>Username</span>
                         <input value={editFormValues?.username}
-                               onChange={(e)=> setFormData(e.target.value, 'username')}
+                               onChange={(e)=> setFormData(e.target.value, 'username', setEditFormValues )}
                         />
                         <br/>
                         <span>Firstname</span>
                         <input value={editFormValues?.firstname}
-                               onChange={(e)=> setFormData(e.target.value, 'firstname')}
+                               onChange={(e)=> setFormData(e.target.value, 'firstname', setEditFormValues)}
                         />
                         <br/>
                         <span>Lastname</span>
                         <input value={editFormValues?.lastname}
-                               onChange={(e)=> setFormData(e.target.value, 'lastname')}
+                               onChange={(e)=> setFormData(e.target.value, 'lastname', setEditFormValues)}
                         />
                         <br/>
                         <span>Phone</span>
                         <input value={editFormValues?.phone}
-                               onChange={(e)=> setFormData(e.target.value, 'phone')}
+                               onChange={(e)=> setFormData(e.target.value, 'phone', setEditFormValues)}
                         />
                         <button type='button' onClick={()=>handleSaveEdit(user.id)}>Save Edit</button>
 

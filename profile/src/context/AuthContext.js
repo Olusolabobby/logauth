@@ -13,23 +13,21 @@ export const AuthContext = createContext(INITIAL_STATE);
 export const AuthContextProvider = ({ children }) => {
     const [state, dispatch] = useReducer(AuthReducer, INITIAL_STATE);
 
-    useEffect( ()=> {
-        const collectionRef = collection(db, "users");
-        onSnapshot(collectionRef, (snapshot) => {
-            const data = snapshot.docs.map((doc) => ({...doc.data(), id: doc.id}))
-            // console.log(data);
-            const authUser = data?.filter((user)=> user?.id === state?.currentUser?.uid)
-            // console.log(authUser)
-            // console.log({...state?.currentUser,
-            //     role : authUser[0]?.role})
-            localStorage.setItem("user", JSON.stringify({...state?.currentUser,
-            userInfo : authUser?.[0]}))
 
-            !state.currentUser?.userInfo
+    useEffect( ()=> {
+        if(state?.currentUser?.uid){
+            const collectionRef = collection(db, "users");
+            onSnapshot(collectionRef, (snapshot) => {
+                const data = snapshot.docs.map((doc) => ({...doc.data(), id: doc.id}))
+                const authUser = data?.filter((user)=> user?.id === state?.currentUser?.uid)
+                localStorage.setItem("user", JSON.stringify({...state?.currentUser,
+                    userInfo : authUser?.[0]}))
+                !state.currentUser?.userInfo
                 && authUser?.[0]
-            && dispatch({type: "LOGIN", payload:{...state.currentUser,
-                    userInfo : authUser?.[0]}});
-        })
+                && dispatch({type: "LOGIN", payload:{...state.currentUser,
+                        userInfo : authUser?.[0]}});
+            });
+        };
     }, [state.currentUser]);
 
     return(

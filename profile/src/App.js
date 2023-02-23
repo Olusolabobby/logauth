@@ -18,7 +18,7 @@ function App() {
       return currentUser ? children : < Navigate to = "/login" />;
   };
 
-  console.log(currentUser);
+  // console.log(currentUser);
 
   // const RequireNonAuth = ({children}) => {
   //   return currentUser?.uid ? < Navigate to = "/" /> : children

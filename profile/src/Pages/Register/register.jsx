@@ -11,15 +11,14 @@ const Register = () => {
 
     const navigate = useNavigate();
 
-
     const[formValues, setFormValues] = useState ( {
         username: '',
         firstname: '',
         lastname: '',
         role: 'user',
         email: '',
-        phone: '',
         password: '',
+        phone: '',
         address: '',
         country: '',
     });
@@ -33,6 +32,7 @@ const Register = () => {
             );
             await setDoc(doc(db, "users", res.user.uid), {
                 ...formValues,
+                password: '',
                 timeStamp: serverTimestamp()
             });
             navigate(AppRoutes.login)
@@ -65,48 +65,56 @@ const Register = () => {
                 <label> Username
                    <input
                        type="text" value={formValues.username}
+                       placeholder="Username"
                    onChange={ (e)=>setFormData(e.target.value, "username")}
                    />
                 </label>
-                <label> FirstName
+                <label> First Name
                     <input
                         type="text" value={formValues.firstname}
+                        placeholder="First name"
                         onChange={ (e)=>setFormData(e.target.value, "firstname")}
                     />
                 </label>
-                <label> LastName
+                <label> Last Name
                     <input
                         type="text" value={formValues.lastname}
+                        placeholder="Last name"
                         onChange={ (e)=>setFormData(e.target.value, "lastname")}
                     />
                 </label>
                 <label> Email
                     <input
                         type="email" value={formValues.email}
+                        placeholder="Email"
                         onChange={ (e)=>setFormData(e.target.value, "email")}
-                    />
-                </label>
-                <label> Phone
-                    <input
-                        type="text" value={formValues.phone}
-                        onChange={ (e)=>setFormData(e.target.value, "phone")}
                     />
                 </label>
                 <label> Password
                     <input
                         type="password" value={formValues.password}
+                        placeholder="Password"
                            onChange={ (e)=>setFormData(e.target.value, "password")}
+                    />
+                </label>
+                <label> Phone
+                    <input
+                        type="text" value={formValues.phone}
+                        placeholder="Phone number"
+                        onChange={ (e)=>setFormData(e.target.value, "phone")}
                     />
                 </label>
                 <label> Address
                     <input
                         type="text" value={formValues.address}
+                        placeholder="Address"
                            onChange={ (e)=>setFormData(e.target.value, "address")}
                     />
                 </label>
                 <label> Country
                     <input
                         type="text" value={formValues.country}
+                        placeholder="Country"
                            onChange={ (e)=>setFormData(e.target.value, "country")}
                     />
                 </label>

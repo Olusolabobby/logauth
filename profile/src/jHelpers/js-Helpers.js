@@ -4,6 +4,7 @@ import {auth} from "../firebase";
 
 
 
+
 export const signOutUser = async (callback) => {
     try {
         const res = await signOut(auth)
@@ -13,4 +14,13 @@ export const signOutUser = async (callback) => {
     } catch (e){
         console.log(e);
     }
+};
+
+export const setFormData = (value, key, callback) => {
+    callback((prevState)=>{
+        return{
+            ...prevState,
+            [key]: value,
+        }
+    });
 };
